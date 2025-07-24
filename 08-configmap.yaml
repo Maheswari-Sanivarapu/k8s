@@ -3,10 +3,8 @@ kind: ConfigMap
 metadata:
   name: configmap
   labels:
-    name: roboshop-configmap
-    labels:
-      project: roboshop-configmap
-      purpose: config-practice
+    project: roboshop-configmap
+    purpose: config-practice
 data: 
   COURSE: "Devops"
   ENVIRONMENT: "Dev"
