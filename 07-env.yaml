@@ -12,3 +12,5 @@ spec:
     env:
     - name: COURSE 
       value: "Devops"
+    - name: DURATION
+      value: "120HRS"
