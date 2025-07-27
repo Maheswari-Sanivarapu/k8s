@@ -2,15 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-demo
+  # deployment labels
   labels:
     project: roboshop-deployment
     purpose: practice-de
 spec:
   replicas: 3
+  # These are the labels replica set use to create pod replicas, this should match pod labels
   selector:
     matchLabels:
       project: roboshop-deployment
       purpose: practice-de
+   #This is pod definition
   template:
     metadata:
       name: pod-deployment
