@@ -3,12 +3,12 @@ kind: Service
 metadata: 
   name: nginx-nodeport
 spec:
-  type: NodePort
   selector:
     project: roboshop-nodeport
     purpose: practice-np
   ports:
-    - protocol: TCP
+    - type: NodePort
+      protocol: TCP
       port: 80
       targetPort: 80
 
@@ -24,4 +24,4 @@ metadata:
 spec:
   containers:
   - name: nginx
-    iamge: nginx
+    image: nginx
