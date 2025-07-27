@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
-metadata: 
-  name: nginx-nodeport
+metadata:
+  name: nginx-loadbalancer
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
-    project: roboshop-nodeport
-    purpose: practice-np
+    project: roboshop-lb
+    purpose: practice-lb
   ports:
     - protocol: TCP
       port: 80 # service port
@@ -14,11 +14,11 @@ spec:
 ---
 apiVersion: v1
 kind: Pod
-metadata: 
-  name: nginx-nodeport
+metadata:
+  name: nginx-loadbalancer
   labels:
-    project: roboshop-nodeport
-    purpose: practice-np
+    project: roboshop-lb
+    purpose: practice-lb
 spec:
   containers:
   - name: nginx
