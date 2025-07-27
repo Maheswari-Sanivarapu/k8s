@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: deployment-pod
+      purpose: roboshop-deployment
+  template:
+    metadata:
+      name: deployment-rs
+      labels:
+        project: deployment-pod
+        purpose: roboshop-deployment
+    spec:
+      containers:
+      - name : nginx
+        image: nginx
