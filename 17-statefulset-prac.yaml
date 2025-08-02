@@ -24,7 +24,7 @@ spec:
   - port: 80
     name: web
 ---
-apiVersion: v1 
+apiVersion: apps/v1 
 kind: StatefulSet
 metadata:
   name: nginx-statefulset
