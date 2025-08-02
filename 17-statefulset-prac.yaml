@@ -33,6 +33,7 @@ metadata:
     project: roboshop-statefulset
     puprose: statefulset-practice
 spec:
+  serviceName: "nginx-svc-headless"
   replicas: 3
   selector:
     matchLabels:
