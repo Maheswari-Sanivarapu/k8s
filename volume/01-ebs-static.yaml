@@ -20,7 +20,7 @@ spec:
   storageClassName: ""
   volumeName: ebs-static-pv
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 4Gi
@@ -49,6 +49,7 @@ kind: Service
 metadata:
   name: ebs-static-service
 spec:
+  type: LoadBalancer
   selector:
     project: roboshop
     purpose: ebs-static-demo
