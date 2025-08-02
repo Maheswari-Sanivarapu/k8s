@@ -51,11 +51,12 @@ spec:
         volumeMounts:
         - name: www # this name should match with pvc name>
           mountPath: /usr/share/nginx/html
-  volumeClaimTemplate:
+  volumeClaimTemplates:
   - metadata:
       name: www
-  storageClassName: efs-sc
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 4Gi
+    spec:
+      storageClassName: efs-sc
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 4Gi
