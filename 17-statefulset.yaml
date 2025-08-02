@@ -1,0 +1,68 @@
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-svc-headless
+  labels: 
+    project: roboshop
+    purpose: Statefulset
+spec:
+  selector:
+    project: roboshop
+    purpose: Statefulset
+  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-svc-normal
+  labels: 
+    project: roboshop
+    purpose: Statefulset
+spec:
+  selector:
+    project: roboshop
+    purpose: Statefulset
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1 
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+  labels: 
+   project: roboshop
+   purpose: Statefulset
+spec:
+  serviceName: "nginx-svc-headless" # this should be headless service name
+  replicas: 3
+  selector:
+    matchLabels:
+      project: roboshop
+      purpose: Statefulset
+    template:
+      metadata:
+        labels:
+          project: roboshop
+          purpose: Statefulset
+      spec:
+        containers:
+        - name: nginx-headless
+          image: nginx
+          volumeMounts:
+          - name: www # this name should match with pvc name>
+            mountPath: /usr/share/nginx/html
+    volumeClaimTemplate: # here this is used to create pvc
+    - metadata:
+        name: www # this name should match with pod volume name
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: <ebs/efs storageclassname>
+    resources:
+      requests:
+        storage: 4Gi
+      

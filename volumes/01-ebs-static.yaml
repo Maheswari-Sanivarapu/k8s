@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ebs-static
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 20Gi
+  csi: 
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: <volume-id>
+---
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-static-pvc
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: ebs-static
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: nginx
+  labels:
+    project: roboshop 
+    purpose: ebs-static-demo
+spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1c # it will create it in us-east-1c bcoz pod should be created in the same availability zone where instance/node is created
+  containers:
+  - name: nginx
+    image: nginx 
+    volumeMounts: # docker run -v host-path:container-path
+    - name: persistent-storage
+      mountPath: /usr/share/nginx/html # here we are mounting the path on to disk storage i.e. whatever content pvc
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: ebs-static-pvc
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: ebs-static-service
+  labels:
+    project: roboshop 
+    purpose: ebs-static-demo
+spec:
+  type: LoadBalancer
+  selector:
+    project: roboshop 
+    purpose: ebs-static-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

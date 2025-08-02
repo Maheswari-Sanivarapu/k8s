@@ -1,0 +1,63 @@
+apiVersion: v1 
+kind: PersistentVolume
+metadata:
+  name: efs-static-pv
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem # this is the type of volume we are using here it is filesystem bcoz we are using EFS
+  storageClassName: "" # This should be empty in static provisioning
+  persistentVolumeReclaimPolicy: Retain # this is the policy for PV
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: <file-system-name> # first file system need to be created then we should pass the file system name here
+---
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata: 
+  name: efs-static-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: "" # This should be empty in static provisioning
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1 
+kind: Pod
+metadata:
+  name: efs-static-pod
+  labels:
+    project: roboshop
+    purpose: efs-static-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts: # docker run -v host-path:container-path
+    - name: persistent-storage
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: efs-static-pvc
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: efs-static-service
+  labels:
+    project: roboshop
+    purpose: efs-static-pod
+spec:
+  type: LoadBalancer
+  selector:
+    project: roboshop
+    purpose: efs-static-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
