@@ -53,7 +53,7 @@ spec:
   volumeClaimTemplate:
   - metadata:
       name: www
-    storageClassName: efs-sc
+  storageClassName: efs-sc
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
