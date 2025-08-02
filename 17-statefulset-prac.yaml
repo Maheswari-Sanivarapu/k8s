@@ -54,7 +54,7 @@ spec:
   - metadata:
       name: www
     spec:
-      storageClassName: "efs-sc"
+      storageClassName: "roboshop-storage"
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
