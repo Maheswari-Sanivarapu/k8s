@@ -1,0 +1,11 @@
+apiVersion: 
+kind: StorageClass
+metadata:
+  name: efs-storageclass-dynamic
+provisioner: efs.csi.aws.com
+reclaimPolicy: Retain
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-056b58f2132fc9960
+  directoryPerms: "700"
+  basePath: "/roboshop"
