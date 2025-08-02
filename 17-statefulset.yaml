@@ -60,9 +60,10 @@ spec:
     volumeClaimTemplate: # here this is used to create pvc
     - metadata:
         name: www # this name should match with pod volume name
-    accessModes: ["ReadWriteOnce"]
-    storageClassName: <ebs/efs storageclassname>
-    resources:
-      requests:
-        storage: 4Gi
+      spec:
+        storageClassName: "efs-sc"
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 4Gi
       
