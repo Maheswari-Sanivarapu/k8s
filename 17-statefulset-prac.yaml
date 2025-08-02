@@ -21,9 +21,8 @@ spec:
     project: roboshop-statefulset
     puprose: statefulset-practice
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+  - port: 80
+    name: web
 ---
 apiVersion: v1 
 kind: StatefulSet
@@ -55,8 +54,8 @@ spec:
   - metadata:
       name: www
     spec:
-      storageClassName: efs-sc
-      accessModes: ["ReadWriteOnce"]
+      storageClassName: "efs-sc"
+      accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 4Gi
