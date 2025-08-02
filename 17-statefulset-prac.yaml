@@ -51,7 +51,8 @@ spec:
           - name: www # this name should match with pvc name>
             mountPath: /usr/share/nginx/html
   volumeClaimTemplate:
-  - name: www
+  - metadata:
+      name: www
     storageClassName: efs-sc
     accessModes: ["ReadWriteOnce"]
     resources:
