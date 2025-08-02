@@ -1,0 +1,56 @@
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-svc-headless
+spec:
+  selector:
+    project: roboshop-statefulset
+    puprose: statefulset-practice
+  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-svc-normal
+spec:
+  selector:
+    project: roboshop-statefulset
+    puprose: statefulset-practice
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1 
+kind: StatefulSet
+metadata:
+  name: roboshop
+  labels:
+    project: roboshop-statefulset
+    puprose: statefulset-practice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: roboshop-statefulset
+      puprose: statefulset-practice
+  template:
+    metadata:
+      labels:
+        project: roboshop-statefulset
+        puprose: statefulset-practice
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+  volumeClaimTemplate:
+  - name: www
+    storageClassName:
+    accessModes: ["ReadWriteOnce"]
+    resources:
+      requests:
+        storage: 4Gi
