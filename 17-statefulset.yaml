@@ -57,7 +57,7 @@ spec:
         volumeMounts:
         - name: www # this name should match with pvc name>
           mountPath: /usr/share/nginx/html
-  volumeClaimTemplate: # here this is used to create pvc
+  volumeClaimTemplates: # here this is used to create pvc
   - metadata:
       name: www # this name should match with pod volume name
     spec:
