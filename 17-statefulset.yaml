@@ -45,25 +45,24 @@ spec:
     matchLabels:
       project: roboshop
       purpose: Statefulset
-    template:
-      metadata:
-        labels:
-          project: roboshop
-          purpose: Statefulset
-      spec:
-        containers:
-        - name: nginx-headless
-          image: nginx
-          volumeMounts:
-          - name: www # this name should match with pvc name>
-            mountPath: /usr/share/nginx/html
-    volumeClaimTemplate: # here this is used to create pvc
-    - metadata:
-        name: www # this name should match with pod volume name
-      spec:
-        storageClassName: "efs-sc"
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 4Gi
-      
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        purpose: Statefulset
+    spec:
+      containers:
+      - name: nginx-headless
+        image: nginx
+        volumeMounts:
+        - name: www # this name should match with pvc name>
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplate: # here this is used to create pvc
+  - metadata:
+      name: www # this name should match with pod volume name
+    spec:
+      storageClassName: "efs-sc"
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 4Gi
